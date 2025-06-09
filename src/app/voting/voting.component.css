@@ -1,0 +1,23 @@
+.story-prompt {
+  margin: 1rem 0;
+}
+.story-prompt input {
+  padding: 0.5rem;
+  width: 60%;
+  margin-right: 1rem;
+}
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.tiles button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

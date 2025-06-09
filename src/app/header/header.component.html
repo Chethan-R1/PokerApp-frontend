@@ -1,0 +1,10 @@
+<header class="header">
+  <div class="logo">PlanItPoker</div>
+
+  <div class="profile" (click)="toggleUserList()" title="User list">
+    <span class="user-icon">👤</span> ▼
+    <ul class="user-list" *ngIf="showUsers">
+      <li *ngFor="let user of users">{{ user }}</li>
+    </ul>
+  </div>
+</header>

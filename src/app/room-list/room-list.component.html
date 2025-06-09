@@ -1,0 +1,47 @@
+<div class="room-container">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Search room by ID"
+    class="search-bar"
+  />
+
+  <button (click)="toggleAddRoomForm()" class="add-btn">
+    {{ showAddRoomForm ? 'Cancel' : 'Add New Room' }}
+  </button>
+
+  <div *ngIf="showAddRoomForm" class="add-room-form">
+    <input
+      type="text"
+      [(ngModel)]="newRoomId"
+      placeholder="Room ID"
+    />
+    <input
+      type="text"
+      [(ngModel)]="newRoomName"
+      placeholder="Room Name"
+    />
+    <button (click)="addRoom()">Add</button>
+  </div>
+
+  <!-- <ul class="room-list">
+    <li *ngFor="let room of filteredRooms">
+      <strong>{{ room.id }}</strong> - {{ room.name }}
+      <button (click)="selectRoom(room)">Select</button>
+    </li>
+  </ul> -->
+
+<ul class="room-list">
+  <li *ngFor="let room of filteredRooms">
+    <div class="room-info">
+      <strong>{{ room.id }}</strong> - {{ room.name }}
+    </div>
+    <div class="room-actions">
+      <button (click)="selectRoom(room)">Select</button>
+      <button (click)="deleteRoom(room.id)">Delete</button>
+    </div>
+  </li>
+</ul>
+
+
+</div>

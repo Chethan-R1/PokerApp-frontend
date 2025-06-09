@@ -1,0 +1,13 @@
+<h2>Voting Room: {{ roomId }}</h2>
+
+<div *ngIf="!storySet" class="story-prompt">
+  <input [(ngModel)]="story" placeholder="Enter a story to vote on" />
+  <button (click)="setStory()">Start Voting</button>
+</div>
+
+<div *ngIf="storySet" class="voting-area">
+  <h3>Story: {{ story }}</h3>
+  <div class="tiles">
+     <button *ngFor="let v of votes" (click)="vote(v)">{{ v }}</button>
+  </div>
+</div>
