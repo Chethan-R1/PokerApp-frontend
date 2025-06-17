@@ -1,0 +1,13 @@
+/* src/app/login/login.component.css */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 100px auto;
+  gap: 10px;
+}
+
+input, button {
+  padding: 8px;
+  font-size: 16px;
+}

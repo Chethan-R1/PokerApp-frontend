@@ -1,31 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RoomDetails, VotingService } from '../service/voting.service';
+
 
 @Component({
   selector: 'app-room-list',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './room-list.component.html',
   styleUrl: './room-list.component.css'
 })
+export class RoomListComponent implements OnInit {
+  searchTerm = '';
+  showAddRoomForm = false;
+  newRoomId = '';
+  newRoomName = '';
 
-export class RoomListComponent {
-    searchTerm = '';
-    showAddRoomForm = false;
-    newRoomId = '';
-    newRoomName = '';
+  rooms: RoomDetails[] = [];
 
-  rooms = [
-    { id: 'R101', name: 'Frontend Discussion' },
-    { id: 'R102', name: 'Backend Sync' },
-    { id: 'R103', name: 'Sprint Planning' },
-    { id: 'R104', name: 'Bug Bash' }
-  ];
+  constructor(private router: Router, private votingService: VotingService) {}
+
+  ngOnInit() {
+    this.loadRooms();
+  }
 
   get filteredRooms() {
     return this.rooms.filter(room =>
-      room.id.toLowerCase().includes(this.searchTerm.toLowerCase())
+      room.roomId.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -33,26 +36,43 @@ export class RoomListComponent {
     this.showAddRoomForm = !this.showAddRoomForm;
   }
 
+  loadRooms() {
+    this.votingService.getAllRooms().subscribe((data) => {
+      console.log(data)
+      this.rooms = data;
+    });
+  }
+
   addRoom() {
     if (this.newRoomId.trim() && this.newRoomName.trim()) {
-      this.rooms.push({ id: this.newRoomId, name: this.newRoomName });
-      this.newRoomId = '';
-      this.newRoomName = '';
-      this.showAddRoomForm = false;
+      const newRoom: RoomDetails = {
+        roomId: this.newRoomId,
+        roomName: this.newRoomName
+      };
+      this.votingService.addRoom(newRoom).subscribe((room) => {
+        this.rooms.push(room);
+        this.newRoomId = '';
+        this.newRoomName = '';
+        this.showAddRoomForm = false;
+      });
     }
   }
 
-  // selectRoom(room: { id: string; name: string }) {
-  //   alert(`Room selected: ${room.id} - ${room.name}`);
-  // }
-    constructor(private router: Router) {}
+  selectRoom(room: RoomDetails) {
+    this.router.navigate(['/vote', room.roomId]);
+  }
 
- selectRoom(room: { id: string, name: string }) {
-  this.router.navigate(['/vote', room.id]);
+deleteRoom(roomId: string) {
+  const room = this.rooms.find(r => r.roomId === roomId);
+  if (!room) return;
+
+  this.votingService.deleteRoom({ roomId: room.roomId, roomName: room.roomName }).subscribe({
+    next: () => {
+      this.rooms = this.rooms.filter(r => r.roomId !== roomId);
+    },
+    error: (err) => console.error('Error deleting room:', err)
+  });
 }
 
-  deleteRoom(roomId: string) {
-  this.rooms = this.rooms.filter(room => room.id !== roomId);
-}
 
 }

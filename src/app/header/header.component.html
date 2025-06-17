@@ -1,10 +1,12 @@
 <header class="header">
+  <!-- Left side -->
   <div class="logo">PlanItPoker</div>
 
-  <div class="profile" (click)="toggleUserList()" title="User list">
-    <span class="user-icon">👤</span> ▼
-    <ul class="user-list" *ngIf="showUsers">
-      <li *ngFor="let user of users">{{ user }}</li>
-    </ul>
+  <!-- Right side -->
+  <div class="right-section">
+    <div class="profile" (click)="toggleUserList()" title="User list">
+      <span class="user-icon">👤 {{ currentUser }}</span>
+    </div>
+    <button (click)="logout()">Logout</button>
   </div>
 </header>

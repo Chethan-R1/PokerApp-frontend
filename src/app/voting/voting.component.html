@@ -1,10 +1,11 @@
+<app-header></app-header>
 <div class="container">
   <!-- Voting Section -->
   <div class="voting-section">
     <h2>Voting Room: {{ roomId }}</h2>
 
     <div class="voting-area">
-  <h3 *ngIf="storySet">Story: {{ stories[currentStoryIndex!] }}</h3>
+  <h3 *ngIf="storySet">Story: {{ stories[currentStoryIndex!].storyName }}</h3>
   <h3 *ngIf="!storySet" class="disabled-heading">Select a story to begin</h3>
 
 <div class="tiles">
@@ -13,7 +14,7 @@
     (click)="vote(v)"
     [disabled]="!storySet"
     [title]="!storySet ? 'Select a story to enable voting' : ''"
-    [class.selected]="v === selectedVote"
+  
   >
     {{ v }}
   </button>
@@ -39,28 +40,45 @@
       <h4>Stories</h4>
       <ul>
         <li *ngFor="let s of stories; let i = index">
-          <span (click)="setStory(i)" [class.active]="currentStoryIndex === i">{{ s }}</span>
+          <span (click)="setStory(i)" [class.active]="currentStoryIndex === i">{{ s.storyName }}</span>
           <button (click)="editStory(i)">✎</button>
           <button (click)="deleteStory(i)">🗑</button>
         </li>
       </ul>
     </div>
+<div class="invite-section" *ngIf="roomId">
+  <label>Invite Link:</label>
+  <input
+    type="text"
+    [value]="getInviteLink()"
+    readonly
+    (click)="selectInput($event)"
+  />
+  <button (click)="copyInviteLink()">Copy</button>
+</div>
+
+
+
   </div>
 </div>
 
 <!-- Voting Results -->
-<div class="results" *ngIf="allVotesKeys.length > 0">
+<div class="results" *ngIf="selectedVote.length > 0">
   <h3>Voting Results</h3>
-
-  <div *ngFor="let story of allVotesKeys">
-    <h4>{{ story }}</h4>
+  
+  <div *ngFor="let vote of selectedVote">
+    <h4>Vote ID: {{ vote.voteId }}</h4>
     <ul>
-      <li *ngFor="let v of allVotes[story]">Vote: {{ v.vote }}</li>
+      <li>
+        Vote by <strong>{{ vote.user.username }}</strong>
+        <!-- If you want to display value, you can add a `voteValue` field to the model -->
+      </li>
     </ul>
   </div>
 
   <button class="clear-button" (click)="clearVotes()">Clear All Voting Results</button>
 </div>
+
 
 
 <!-- Modal for editing story -->
