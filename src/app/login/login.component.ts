@@ -17,11 +17,19 @@ export class LoginComponent {
 
   constructor(private userService: UserService,private route:Router) {}
 
+
+ getNextUserId(): string {
+  const key = 'planitpoker_user_counter';
+  let counter = Number(localStorage.getItem(key)) || 1;
+  localStorage.setItem(key, String(counter + 1));
+  return `user-${counter}`;
+}
+
  login(): void {
   const trimmed = this.username.trim();
   if (trimmed) {
     const user: UserDetails = {
-      userId: crypto.randomUUID(),
+      userId: this.getNextUserId(),
       username: trimmed
     };
 
