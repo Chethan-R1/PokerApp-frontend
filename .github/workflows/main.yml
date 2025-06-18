@@ -18,13 +18,14 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
     - name: Install dependencies
       run: npm install
 
-    - name: Build Angular App
-      run: ng build --configuration production && ng run planitpoker1:server
-
-
+    - name: Build Angular App for Static Hosting
+      run: ng build --configuration production
 
     - name: Deploy to S3
       uses: jakejarvis/s3-sync-action@v0.5.1
