@@ -18,14 +18,14 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [{ "glob": "**/*", "input": "public" }],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
             "styles": ["src/styles.css"],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -51,43 +51,6 @@
           },
           "defaultConfiguration": "production"
         },
-        "static-build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/static",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": ["zone.js"],
-            "tsConfig": "tsconfig.app.json",
-            "assets": [{ "glob": "**/*", "input": "public" }],
-            "styles": ["src/styles.css"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "all",
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "planitpoker1:build:production"
-            },
-            "development": {
-              "buildTarget": "planitpoker1:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
         },
@@ -96,7 +59,12 @@
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [{ "glob": "**/*", "input": "public" }],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
             "styles": ["src/styles.css"],
             "scripts": []
           }
@@ -105,6 +73,6 @@
     }
   },
   "cli": {
-    "analytics": "9a618368-8249-4f13-9f2f-0df9c9d134e2"
+    "analytics": false
   }
 }
